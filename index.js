@@ -1,7 +1,9 @@
+
 const mineflayer = require('mineflayer');
 const express = require('express');
 
-const SERVER_IP = "SosticeMC.aternos.me";
+// DATI ESTRATTI DALLO SCREENSHOT
+const SERVER_IP = "abyssinian.aternos.host";
 const SERVER_PORT = 41807;
 const BOT_NAME = "Giginoilgoat";
 
@@ -10,14 +12,15 @@ app.get('/', (req, res) => res.send('Bot Online!'));
 app.listen(process.env.PORT || 3000);
 
 function createBot() {
-  console.log(`Connessione a ${SERVER_IP}:${SERVER_PORT}...`);
+  console.log(`Connessione diretta a ${SERVER_IP}:${SERVER_PORT}...`);
   
   const bot = mineflayer.createBot({
     host: SERVER_IP,
     port: SERVER_PORT,
     username: BOT_NAME,
     auth: 'offline',
-    version: '1.20.1', // Specifica la versione di protocollo per superare il blocco di Aternos
+    version: '1.20.1', // Specifica la versione per ViaVersion
+    skipValidation: true,
     checkTimeoutInterval: 60 * 1000
   });
 
