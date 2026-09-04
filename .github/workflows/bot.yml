@@ -10,9 +10,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - run: npm install mineflayer express
-      - run: node index.js
-
-
+          node-version: '20'
+      - name: Mostra i file presenti
+        run: ls -la
+      - name: Install dependencies
+        run: npm install
+      - name: Run script
+        run: node index.js
 
