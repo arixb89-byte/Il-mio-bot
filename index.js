@@ -1,3 +1,4 @@
+
 const mineflayer = require('mineflayer');
 const express = require('express');
 
@@ -11,12 +12,13 @@ app.listen(process.env.PORT || 3000);
 
 function createBot() {
   console.log(`Connessione a ${SERVER_IP}:${SERVER_PORT}...`);
+  
   const bot = mineflayer.createBot({
     host: SERVER_IP,
     port: SERVER_PORT,
     username: BOT_NAME,
     auth: 'offline',
-    version: false
+    checkTimeoutInterval: 60 * 1000
   });
 
   bot.on('spawn', () => {
@@ -28,20 +30,14 @@ function createBot() {
     }, 30000);
   });
 
-  bot.on('error', (err) => console.log(`Errore: ${err.message}`));
+  bot.on('error', (err) => {
+    console.log(`Errore: ${err.message}`);
+  });
+
   bot.on('end', () => {
-    console.log('Disconnesso. Riconnessione tra 15 secondi...');
+    console.log('Disconnesso dal server. Riconnessione tra 15 secondi...');
     setTimeout(createBot, 15000);
   });
 }
 
 createBot();
-
-
-
-
-
-
-
-
-
