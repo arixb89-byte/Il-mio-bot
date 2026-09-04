@@ -1,4 +1,3 @@
-
 const mineflayer = require('mineflayer');
 const express = require('express');
 
@@ -18,11 +17,12 @@ function createBot() {
     port: SERVER_PORT,
     username: BOT_NAME,
     auth: 'offline',
+    version: '1.20.1', // Specifica la versione di protocollo per superare il blocco di Aternos
     checkTimeoutInterval: 60 * 1000
   });
 
   bot.on('spawn', () => {
-    console.log(`✅ Bot entrato nel server!`);
+    console.log(`✅ Bot entrato nel server con successo!`);
     setInterval(() => {
       if (bot) {
         bot.swingArm('right');
@@ -31,11 +31,11 @@ function createBot() {
   });
 
   bot.on('error', (err) => {
-    console.log(`Errore: ${err.message}`);
+    console.log(`Errore di connessione: ${err.message}`);
   });
 
   bot.on('end', () => {
-    console.log('Disconnesso dal server. Riconnessione tra 15 secondi...');
+    console.log('Disconnesso dal server. Tentativo di riconnessione tra 15 secondi...');
     setTimeout(createBot, 15000);
   });
 }
