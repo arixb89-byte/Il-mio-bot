@@ -1,3 +1,4 @@
+
 const mineflayer = require('mineflayer');
 const express = require('express');
 
@@ -18,24 +19,21 @@ function createBot() {
     port: SERVER_PORT,
     username: BOT_NAME,
     auth: 'offline',
-    version: '1.20.1',
     checkTimeoutInterval: 60 * 1000
   });
 
   bot.on('spawn', () => {
     console.log(`✅ Bot entrato nel server con successo!`);
     
-    // Auto-login / Auto-register in chat
     setTimeout(() => {
       bot.chat(`/register ${PASSWORD_BOT} ${PASSWORD_BOT}`);
       bot.chat(`/login ${PASSWORD_BOT}`);
     }, 2000);
 
-    // Movimento 100% sicuro per Anti-Cheat: ruota solo la testa e muove il braccio
+    // Solo rotazione dello sguardo (nessun salto che attiva l'anti-cheat)
     setInterval(() => {
-      if (bot) {
+      if (bot && bot.entity) {
         bot.swingArm('right');
-        // Ruota la testa di poco per risultare attivo al server
         const yaw = (bot.entity.yaw + 0.5) % (Math.PI * 2);
         bot.look(yaw, 0, true);
       }
@@ -55,9 +53,8 @@ function createBot() {
   });
 
   bot.on('end', () => {
-    console.log('Disconnesso. Riconnessione tra 60 secondi...');
-    // Aspetta 60 secondi per evitare il blocco "You must wait before logging in"
-    setTimeout(createBot, 60000);
+    console.log('Disconnesso. Riconnessione tra 30 secondi...');
+    setTimeout(createBot, 30000);
   });
 }
 
