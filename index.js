@@ -4,7 +4,7 @@ const express = require('express');
 const SERVER_IP = "abyssinian.aternos.host";
 const SERVER_PORT = 41807;
 const BOT_NAME = "Giginoilgoat";
-const PASSWORD_BOT = "Gigino1234"; // Imposta una password a tua scelta per l'autologin
+const PASSWORD_BOT = "Gigino1234";
 
 const app = express();
 app.get('/', (req, res) => res.send('Bot Online!'));
@@ -25,29 +25,29 @@ function createBot() {
   bot.on('spawn', () => {
     console.log(`✅ Bot entrato nel server con successo!`);
     
-    // Auto-login / Auto-register se richiesto dal server
+    // Auto-login / Auto-register in chat
     setTimeout(() => {
       bot.chat(`/register ${PASSWORD_BOT} ${PASSWORD_BOT}`);
       bot.chat(`/login ${PASSWORD_BOT}`);
     }, 2000);
 
-    // Azione AFK antiepulsione ogni 15 secondi
+    // Movimento 100% sicuro per Anti-Cheat: ruota solo la testa e muove il braccio
     setInterval(() => {
       if (bot) {
         bot.swingArm('right');
-        bot.setControlState('jump', true);
-        setTimeout(() => bot.setControlState('jump', false), 500);
+        // Ruota la testa di poco per risultare attivo al server
+        const yaw = (bot.entity.yaw + 0.5) % (Math.PI * 2);
+        bot.look(yaw, 0, true);
       }
-    }, 15000);
+    }, 20000);
   });
 
-  // Leggi i messaggi di chat nei log per capire se serve un comando specifico
   bot.on('message', (message) => {
     console.log(`[CHAT] ${message.toAnsi()}`);
   });
 
   bot.on('kicked', (reason) => {
-    console.log(`Kickato dal server per: ${reason}`);
+    console.log(`Kickato dal server per: ${JSON.stringify(reason)}`);
   });
 
   bot.on('error', (err) => {
@@ -55,8 +55,9 @@ function createBot() {
   });
 
   bot.on('end', () => {
-    console.log('Disconnesso. Riconnessione tra 10 secondi...');
-    setTimeout(createBot, 10000);
+    console.log('Disconnesso. Riconnessione tra 60 secondi...');
+    // Aspetta 60 secondi per evitare il blocco "You must wait before logging in"
+    setTimeout(createBot, 60000);
   });
 }
 
