@@ -11,10 +11,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Mostra i file presenti
-        run: ls -la
-      - name: Install dependencies
-        run: npm install
-      - name: Run script
+      - name: Install dependencies directly
+        run: npm install mineflayer express
+      - name: Run bot script
         run: node index.js
 
